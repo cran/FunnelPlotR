@@ -5,9 +5,13 @@
 
 [![Travis build
 status](https://travis-ci.org/chrismainey/FunnelPlotR.svg?branch=master)](https://travis-ci.org/chrismainey/FunnelPlotR)
-![Project Status: WIP – Initial development is in progress, but there
-has not yet been a stable, usable release suitable for the
-public.](https://www.repostatus.org/badges/latest/wip.svg)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![CRAN
+version](http://www.r-pkg.org/badges/version/FunnelPlotR)](https://cran.r-project.org/package=FunnelPlotR)
+![](http://cranlogs.r-pkg.org/badges/grand-total/FunnelPlotR)
+
 [![codecov](https://codecov.io/gh/chrismainey/FunnelPlotR/branch/master/graph/badge.svg)](https://codecov.io/gh/chrismainey/FunnelPlotR)
 <br><br> <!-- badges: end -->
 
@@ -53,7 +57,11 @@ More information available at
 
 ## Installation
 
+You can install from CRAN, or use the development version on GitHub:
+
 ``` r
+install.packages("FunnelPlotR")
+# or
 remotes::install_github("https://github.com/chrismainey/FunnelPlotR")
 ```
 
@@ -76,35 +84,34 @@ medpar$los<-as.numeric(medpar$los)
 
 mod<- glm(los ~ hmo + died + age80 + factor(type), family="poisson", data=medpar)
 summary(mod)
+#> 
+#> Call:
+#> glm(formula = los ~ hmo + died + age80 + factor(type), family = "poisson", 
+#>     data = medpar)
+#> 
+#> Deviance Residuals: 
+#>     Min       1Q   Median       3Q      Max  
+#> -5.7309  -1.9554  -0.5529   0.9717  14.5487  
+#> 
+#> Coefficients:
+#>               Estimate Std. Error z value Pr(>|z|)    
+#> (Intercept)    2.26875    0.01246 182.011  < 2e-16 ***
+#> hmo           -0.07637    0.02393  -3.192  0.00142 ** 
+#> died          -0.24574    0.01826 -13.458  < 2e-16 ***
+#> age80         -0.02141    0.02050  -1.045  0.29617    
+#> factor(type)2  0.24921    0.02099  11.871  < 2e-16 ***
+#> factor(type)3  0.74869    0.02627  28.496  < 2e-16 ***
+#> ---
+#> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#> 
+#> (Dispersion parameter for poisson family taken to be 1)
+#> 
+#>     Null deviance: 8901.1  on 1494  degrees of freedom
+#> Residual deviance: 7977.7  on 1489  degrees of freedom
+#> AIC: 13705
+#> 
+#> Number of Fisher Scoring iterations: 5
 ```
-
-    ## 
-    ## Call:
-    ## glm(formula = los ~ hmo + died + age80 + factor(type), family = "poisson", 
-    ##     data = medpar)
-    ## 
-    ## Deviance Residuals: 
-    ##     Min       1Q   Median       3Q      Max  
-    ## -5.7309  -1.9554  -0.5529   0.9717  14.5487  
-    ## 
-    ## Coefficients:
-    ##               Estimate Std. Error z value Pr(>|z|)    
-    ## (Intercept)    2.26875    0.01246 182.011  < 2e-16 ***
-    ## hmo           -0.07637    0.02393  -3.192  0.00142 ** 
-    ## died          -0.24574    0.01826 -13.458  < 2e-16 ***
-    ## age80         -0.02141    0.02050  -1.045  0.29617    
-    ## factor(type)2  0.24921    0.02099  11.871  < 2e-16 ***
-    ## factor(type)3  0.74869    0.02627  28.496  < 2e-16 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## (Dispersion parameter for poisson family taken to be 1)
-    ## 
-    ##     Null deviance: 8901.1  on 1494  degrees of freedom
-    ## Residual deviance: 7977.7  on 1489  degrees of freedom
-    ## AIC: 13705
-    ## 
-    ## Number of Fisher Scoring iterations: 5
 
 Now we have a regression that we can use to get a predicted `los` that
 we will compare to observed `los`:
@@ -114,20 +121,17 @@ medpar$prds<- predict(mod, type="response")
 ```
 
 <br><br> We can build a funnel plot object with standard Poisson limits,
-and outliers labelled. The function returns a list of the plotted data,
-the plotted control limit range, and the ggplot object, hence
-`object[3]` to call it.
+and outliers labelled.
 
 ``` r
-
-funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnum, 
+a<-funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnum, 
             title = 'Length of Stay Funnel plot for `medpar` data', Poisson_limits = TRUE,
             OD_adjust = FALSE,label_outliers = TRUE, return_elements = "plot")
-## $plot
-## Warning: Removed 1 rows containing missing values (geom_point).
+a
+#> $plot
 ```
 
-<img src="./man/figures/funnel1-1.png" width="672" style="display: block; margin: auto;" />
+<img src="man/figures/README-funnel1-1.png" width="100%" style="display: block; margin: auto;" />
 
 <br><br>
 
@@ -138,10 +142,10 @@ conforming to Poisson distribution assumption (conditional mean =
 variance). If it is greater than 1, we have overdispersion:
 
 ``` r
-sum(mod$weights * mod$residuals^2)/mod$df.residual
-```
 
-    ## [1] 6.240519
+sum(mod$weights * mod$residuals^2)/mod$df.residual
+#> [1] 6.240519
+```
 
 This suggest the variance is 6.24 times the condition mean, and
 definitely overdispersed. This is a huge topic, but applying
@@ -149,17 +153,21 @@ overdispersed limits using either SHMI or Spiegelhalter methods adjust
 for this by inflating the limits:
 
 ``` r
-
-funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnum, 
+b<-funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnum, 
             title = 'Length of Stay Funnel plot for `medpar` data', Poisson_limits = FALSE,
             OD_adjust = TRUE, method = "SHMI",label_outliers = TRUE, return_elements = "plot")
-## $plot
+
+b
+#> $plot
 ```
 
-<img src="./man/figures/funnel2-1.png" width="672" style="display: block; margin: auto;" />
+<img src="man/figures/README-funnel2-1.png" width="100%" style="display: block; margin: auto;" />
 
 <br><br> These methods can be used for any similar indicators,
 e.g. standardised mortality ratios, readmissions etc.
 
 Please read the package documentation for more info, at:
 <https://chrismainey.github.io/FunnelPlotR/>
+
+Funnel Plot HEX sticker/logo by Paul Chipperfield, check him out at:
+<https://themightychip.com/>

@@ -8,7 +8,8 @@
 #' @param multiplier The amount to multiply the standardised ratio by, default is 1.
 #' @param bypass TRUE\/FALSE, whether to bypass adjustment (not yet in use in main function)
 #'
-#' @return A list with elements\: aggregated adjusted data fame, Phi (a numeric dispersion ratio), Tau2 (a numeric \"between\" standard error)' 
+#' @return A list with elements\: aggregated adjusted data fame, Phi (a numeric dispersion ratio), Tau2 (a numeric \"between\" standard error)'
+#' @keywords internal
 #' @importFrom dplyr mutate summarise %>%
 #' @importFrom dplyr group_by summarise mutate %>%
 #' @importFrom rlang .data
@@ -41,8 +42,8 @@ if(method == "CQC"){
     )
 
 
-  lz <- quantile(x = mod_plot_agg$Uzscore_CQC, Winsorise_by)
-  uz <- quantile(x = mod_plot_agg$Uzscore_CQC, (1 - Winsorise_by))
+  lz <- quantile(x = mod_plot_agg$Uzscore_CQC, Winsorise_by, na.rm = TRUE)
+  uz <- quantile(x = mod_plot_agg$Uzscore_CQC, (1 - Winsorise_by), na.rm = TRUE)
 
   mod_plot_agg <- mod_plot_agg %>%
     dplyr::mutate(
@@ -93,12 +94,12 @@ if(method == "CQC"){
       # OD95UCL = multiplier * (1 + ((1.959964 * (sqrt(((1 / (2 * sqrt(.data$S)))^2) + Tau2))))^2),
       # OD99LCL = multiplier * (1 - ((3.090232 * (sqrt(((1 / (2 * sqrt(.data$S)))^2) + Tau2))))^2),
       # OD99UCL = multiplier * (1 + ((3.090232 * (sqrt(((1 / (2 * sqrt(.data$S)))^2) + Tau2))))^2)
-      
+
       OD95LCL = multiplier * ((1 + (-1.959964 * (sqrt(((1 / (2 * sqrt(.data$denominator)))^2) + Tau2))))^2),
       OD95UCL = multiplier * ((1 + (1.959964 * (sqrt(((1 / (2 * sqrt(.data$denominator)))^2) + Tau2))))^2),
       OD99LCL = multiplier * ((1 + (-3.090232 * (sqrt(((1 / (2 * sqrt(.data$denominator)))^2) + Tau2))))^2),
       OD99UCL = multiplier * ((1 + (3.090232 * (sqrt(((1 / (2 * sqrt(.data$denominator)))^2) + Tau2))))^2)
-      
+
     )
 } else if (method == "SHMI") {
 
@@ -113,8 +114,8 @@ if(method == "CQC"){
       UCL99 = multiplier * (exp(3.090232 * sqrt(.data$rrS2)))
     )
 
-  lz <- quantile(x = mod_plot_agg$Uzscore_SHMI, Winsorise_by)
-  uz <- quantile(x = mod_plot_agg$Uzscore_SHMI, (1 - Winsorise_by))
+  lz <- quantile(x = mod_plot_agg$Uzscore_SHMI, Winsorise_by, na.rm = TRUE)
+  uz <- quantile(x = mod_plot_agg$Uzscore_SHMI, (1 - Winsorise_by), na.rm=TRUE)
 
   mod_plot_agg <- mod_plot_agg %>%
     dplyr::mutate(Winsorised = ifelse(.data$Uzscore_SHMI > lz & .data$Uzscore_SHMI < uz, 0, 1))
