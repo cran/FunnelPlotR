@@ -1,4 +1,4 @@
-## ---- include = FALSE, echo=FALSE----------------------------------------
+## ---- include = FALSE, echo=FALSE---------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -39,10 +39,10 @@ lkup<-gather(lkup, key, value,-id)
 a+ geom_line(aes(x=id, y=value, col=key), data=lkup)
 
 
-## ----install, eval=FALSE-------------------------------------------------
+## ----install, eval=FALSE------------------------------------------------------
 #  devtools::install_github("https://github.com/chrismainey/FunnelPlotR")
 
-## ----data, warning=FALSE, message=FALSE----------------------------------
+## ----data, warning=FALSE, message=FALSE---------------------------------------
 library(FunnelPlotR)
 library(COUNT)
 library(ggplot2)
@@ -55,7 +55,7 @@ mod<- glm(los ~ hmo + died + age80 + factor(type), family="poisson", data=medpar
 summary(mod)
 
 
-## ---- prediction---------------------------------------------------------
+## ---- prediction--------------------------------------------------------------
 
 medpar$prds<- predict(mod, type="response")
 
@@ -66,7 +66,7 @@ funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnu
             title = 'Length of Stay Funnel plot for `medpar` data', Poisson_limits = TRUE,
             OD_adjust = FALSE,label_outliers = 99, return_elements = "plot")
 
-## ---- ODcheck, message=FALSE---------------------------------------------
+## ---- ODcheck, message=FALSE--------------------------------------------------
 
 sum(mod$weights * mod$residuals^2)/mod$df.residual
 

@@ -1,7 +1,7 @@
 Package: FunnelPlotR
 Type: Package
 Title: Funnel Plots for Indirectly-Standardised Ratios
-Version: 0.2.1
+Version: 0.2.2
 Authors@R: c(
         person("Chris", "Mainey", ,"chris.mainey@uhb.nhs.uk", role= c("aut", "cre"), 
           comment = c(ORCID ="0000-0002-3018-6171")
@@ -18,12 +18,12 @@ Encoding: UTF-8
 LazyData: true
 Imports: ggrepel, scales
 Depends: ggplot2, dplyr, rlang
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Suggests: testthat (>= 2.1.0), knitr, rmarkdown, COUNT, tidyr
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2019-10-09 08:30:13 UTC; Christopher
+Packaged: 2019-12-12 12:40:08 UTC; CSMY
 Author: Chris Mainey [aut, cre] (<https://orcid.org/0000-0002-3018-6171>),
   Matthew Bass [ctb]
 Repository: CRAN
-Date/Publication: 2019-10-09 08:50:05 UTC
+Date/Publication: 2019-12-12 13:00:03 UTC
