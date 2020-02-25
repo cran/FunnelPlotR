@@ -1,7 +1,7 @@
 Package: FunnelPlotR
 Type: Package
 Title: Funnel Plots for Indirectly-Standardised Ratios
-Version: 0.2.2
+Version: 0.2.3
 Authors@R: c(
         person("Chris", "Mainey", ,"chris.mainey@uhb.nhs.uk", role= c("aut", "cre"), 
           comment = c(ORCID ="0000-0002-3018-6171")
@@ -22,8 +22,8 @@ RoxygenNote: 7.0.2
 Suggests: testthat (>= 2.1.0), knitr, rmarkdown, COUNT, tidyr
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2019-12-12 12:40:08 UTC; CSMY
+Packaged: 2020-02-25 15:09:23 UTC; Christopher
 Author: Chris Mainey [aut, cre] (<https://orcid.org/0000-0002-3018-6171>),
   Matthew Bass [ctb]
 Repository: CRAN
-Date/Publication: 2019-12-12 13:00:03 UTC
+Date/Publication: 2020-02-25 15:40:02 UTC
