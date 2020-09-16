@@ -1,14 +1,19 @@
 ---
 title: "Funnel Plots for Indirectly-standardised ratios"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 2
 vignette: >
   %\VignetteIndexEntry{Funnel Plots for Indirectly-standardised ratios}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
 bibliography: references.bib
+csl: harvard.csl
 ---
 
-```{r, include = FALSE, echo=FALSE}
+```{r, include = FALSE, echo=FALSE, fig.height= 5, fig.width=7}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -32,7 +37,7 @@ There are different kinds of funnel plot, but this post focuses on the type used
 
 How do you go about comparing organisations?  We could simply look at indicator data and rank them, but that could be unfair if the conditions are different at each organisation.  E.g. every hospital differs in size, the services it offers, and the patients it sees. We might expect a hospital seeing a higher proportion of elderly patients to have a higher mortality rate.  Is it fair to compare it to an organisation serving a younger population who may be 'healthier' in general?  Naively comparing organisations by ranking in league tables has been shown to be a bad idea [@goldsteinLeagueTablesTheir1996; @lilfordUseMisuseProcess2004].
 
-This scenario is not a million miles away from the techniques used in meta-analysis of clinical trial, where we may have trials of different sizes, with different estimates of effect, and differing variances. Some of the techniques applied to meta-analysis have been adapted for healthcare monitoring, including funnel plots and methods to adjust for overdispersion [@spiegelhalterFunnelPlotsComparing2005; @spiegelhalterHandlingOverdispersionPerformance2005; @spiegelhalterStatisticalMethodsHealthcare2012].
+This scenario is not a million miles away from the techniques used in meta-analysis of clinical trials, where we may have trials of different sizes, with different estimates of effect, and differing variances. Some of the techniques applied to meta-analysis have been adapted for healthcare monitoring, including funnel plots and methods to adjust for overdispersion [@spiegelhalterFunnelPlotsComparing2005; @spiegelhalterHandlingOverdispersionPerformance2005; @spiegelhalterStatisticalMethodsHealthcare2012].
 
 ### Construction
 
@@ -141,7 +146,7 @@ Now we can build a funnel plot object with standard Poisson limits, and outliers
 
 funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnum, 
             title = 'Length of Stay Funnel plot for `medpar` data', Poisson_limits = TRUE,
-            OD_adjust = FALSE,label_outliers = 99, return_elements = "plot")
+            OD_adjust = FALSE,label_outliers = TRUE, limit=99)
 ```
 
 <br>
@@ -167,7 +172,8 @@ This is a huge topic, but applying overdispersed limits using either SHMI or Spi
 ```{r, funnel2, message=FALSE, fig.align='center', fig.retina=5, collapse=TRUE}
 funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnum, 
             title = 'Length of Stay Funnel plot for `medpar` data', Poisson_limits = FALSE,
-            OD_adjust = TRUE, method = "SHMI",label_outliers = 99, return_elements = "plot")
+            OD_adjust = TRUE, data_type="SR", sr_method = "SHMI",label_outliers = TRUE, limit=99
+            )
 ```
 
 <br><br>

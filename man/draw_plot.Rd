@@ -6,6 +6,7 @@
 \usage{
 draw_plot(
   mod_plot_agg,
+  limits,
   x_label,
   y_label,
   title,
@@ -13,14 +14,21 @@ draw_plot(
   multiplier,
   Poisson_limits,
   OD_adjust,
-  Tau2 = 0,
-  method,
-  yrange,
-  xrange
+  target,
+  min_y,
+  max_y,
+  min_x,
+  max_x,
+  data_type,
+  sr_method,
+  theme,
+  plot_cols
 )
 }
 \arguments{
-\item{mod_plot_agg}{data frame of containing numerator, denominator, ratio/proportion, SEs and limits}
+\item{mod_plot_agg}{data.frame of containing numerator, denominator, ratio/proportion, SEs and limits}
+
+\item{limits}{data.frame of limits from set_plot_range().}
 
 \item{x_label}{Title for the funnel plot x-axis.  Usually expected deaths, readmissions, incidents etc.}
 
@@ -34,15 +42,23 @@ draw_plot(
 
 \item{Poisson_limits}{Draw exact limits based only on data points with no iterpolation. (default=FALSE)}
 
-\item{OD_adjust}{Draw overdispersed limits using Spiegelhalter's (2012) Tau2 (default=TRUE)}
+\item{OD_adjust}{Draw overdispersed limits using Spiegelhalter's (2012) tau2 (default=TRUE)}
 
-\item{Tau2}{The Tau2 value to use for plotting limits}
+\item{target}{the calculated target value for the data type}
 
-\item{method}{to pass to limit calculation (\"SHMI\" or \"CQC\")}
+\item{min_y}{Specify the plot range.}
 
-\item{yrange}{Specify the plot range. Default is "auto", else vector of length 2 e.g. c(0,200)}
+\item{max_y}{Specify the plot range.}
 
-\item{xrange}{Specify the plot range. Default is "auto", else vector of length 2 e.g. c(0,200)}
+\item{min_x}{Specify the plot range.}
+
+\item{max_x}{Specify the plot range.}
+
+\item{data_type}{the data type SR, PR or RC.}
+
+\item{sr_method}{CQC or SHMI methods for standardised ratios}
+
+\item{theme}{a ggplot theme function.}
 }
 \value{
 A list containing [1] the funnel plot as a ggplot2 object., [2]the limits table.

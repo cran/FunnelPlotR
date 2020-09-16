@@ -1,4 +1,4 @@
-## ---- include = FALSE, echo=FALSE---------------------------------------------
+## ---- include = FALSE, echo=FALSE, fig.height= 5, fig.width=7-----------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -64,7 +64,7 @@ medpar$prds<- predict(mod, type="response")
 
 funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnum, 
             title = 'Length of Stay Funnel plot for `medpar` data', Poisson_limits = TRUE,
-            OD_adjust = FALSE,label_outliers = 99, return_elements = "plot")
+            OD_adjust = FALSE,label_outliers = TRUE, limit=99)
 
 ## ---- ODcheck, message=FALSE--------------------------------------------------
 
@@ -74,5 +74,6 @@ sum(mod$weights * mod$residuals^2)/mod$df.residual
 ## ---- funnel2, message=FALSE, fig.align='center', fig.retina=5, collapse=TRUE----
 funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnum, 
             title = 'Length of Stay Funnel plot for `medpar` data', Poisson_limits = FALSE,
-            OD_adjust = TRUE, method = "SHMI",label_outliers = 99, return_elements = "plot")
+            OD_adjust = TRUE, data_type="SR", sr_method = "SHMI",label_outliers = TRUE, limit=99
+            )
 
