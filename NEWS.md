@@ -1,5 +1,11 @@
+# FunnelPlotR 0.3.2
+
+- Bug fix for limits related to NHS Digital SHMI method, correcting truncation and rounding issue that led to wrong limits being too wide.
+- Typos in support material
+
 # FunnelPlotR 0.3.1
 
+- Significantly reorganised the internals into more small functions
 - Added methods for ratios of counts and proportions
 - Renamed several arguments  -  please read the help file!
 - Added S3 object system and associated methods

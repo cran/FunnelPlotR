@@ -121,6 +121,10 @@ funnel_plot <- function(numerator, denominator, group, data_type = "SR", limit =
     denominator <- as.numeric(denominator)
   }
   
+  if(identical(numerator,denominator)){
+    stop("Numerator and denominator are the same. Please check your inputs")
+  }
+  
   if(length(plot_cols) < 4){
     stop("Please supply a vector of 4 colours for funnel limits, in order: 95% Poisson, 99.8% Poisson, 95% OD-adjusted, 99.8% OD-adjusted, even if you are only using one set of limits.")
   }
@@ -165,6 +169,11 @@ funnel_plot <- function(numerator, denominator, group, data_type = "SR", limit =
 
   mod_plot_agg<-aggregate_func(mod_plot)
   
+  # Round to two decimal places for expected SHMI expected
+  if(data_type == "SR" & sr_method == "SHMI"){
+    mod_plot_agg$denominator <- round(mod_plot_agg$denominator,2)
+  }
+  
   target <- ifelse(data_type == "SR", 1, sum(mod_plot_agg$numerator)/ sum(mod_plot_agg$denominator))
   
   #OD Adjust and return table
@@ -184,12 +193,13 @@ funnel_plot <- function(numerator, denominator, group, data_type = "SR", limit =
   phi <- phi_func(n= n, zscores=na.omit(mod_plot_agg$Wuzscore))
   
   # Use phi to calculate Tau, the between group standard deviation
-  tau2 <- tau_func(n=n,  phi=phi, S=mod_plot_agg$s)
+  # Update on 29/11/2020 to only include the S without NA values in SHMI
+  tau2 <- tau_func(n=n,  phi=phi, S=mod_plot_agg[!is.na(mod_plot_agg$Wuzscore),]$s)
   
   
   if(OD_adjust == FALSE){
-  phi<-as.numeric(0)
-  tau2<-as.numeric(0)
+    phi<-as.numeric(0)
+    tau2<-as.numeric(0)
   }
   
   # Poisson limits
@@ -211,10 +221,10 @@ funnel_plot <- function(numerator, denominator, group, data_type = "SR", limit =
   }
   
   if(yrange[1] == "auto"){
-    min_y <- min((0.7 * target * multiplier), multiplier * (0.9 * as.numeric(min((mod_plot_agg$numerator / mod_plot_agg$denominator)))), na.rm = FALSE)
-    
     max_y <- max((1.3 * target *multiplier), multiplier *  (1.1 * as.numeric(max((mod_plot_agg$numerator / mod_plot_agg$denominator)))), na.rm = FALSE)
-  } else {
+    min_y <- min((0.7 * target * multiplier), multiplier * (0.9 * as.numeric(min((mod_plot_agg$numerator / mod_plot_agg$denominator)))), na.rm = FALSE)
+  
+    } else {
     min_y <- yrange[1]
     max_y <- yrange[2]
   }
