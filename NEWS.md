@@ -1,3 +1,13 @@
+# FunnelPlotR 0.4.0
+
+- Major tidy up of the UI, inputs, and control options.  This is was to remove inconsistency and help with future development.
+- Several arguments renamed, all old arguments should show deprecation warnings and are documented in help files. Notably:
+  - `Poisson_limits` and `OD_adjusted` are now `draw_unadjusted` and `draw_adjusted`.
+  - `label_outliers` is now `label` with with more options for labelling rules.
+- New argument to highlight data points added.
+- Correction for non-monotonic transformation of limits for proportions. Thanks @andrjohns.
+
+
 # FunnelPlotR 0.3.2
 
 - Bug fix for limits related to NHS Digital SHMI method, correcting truncation and rounding issue that led to wrong limits being too wide.

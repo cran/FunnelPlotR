@@ -10,10 +10,10 @@ draw_plot(
   x_label,
   y_label,
   title,
-  label_outliers,
+  label,
   multiplier,
-  Poisson_limits,
-  OD_adjust,
+  draw_unadjusted,
+  draw_adjusted,
   target,
   min_y,
   max_y,
@@ -36,13 +36,13 @@ draw_plot(
 
 \item{title}{Plot title}
 
-\item{label_outliers}{Add group labels to outliers on plot. Accepted values are\: 95 or 99 corresponding to 95\% or 99.8\% quantiles of the distribution. Default=99}
+\item{label}{Whether to label outliers, highlighted groups, both or none. Default is "outlier", by accepted values are: "outlier", "highlight", "both" or "NA".}
 
 \item{multiplier}{Scale relative risk and funnel by this factor. Default to 1, but 100 is used for HSMR}
 
-\item{Poisson_limits}{Draw exact limits based only on data points with no iterpolation. (default=FALSE)}
+\item{draw_unadjusted}{Draw exact limits based only on data points with no iterpolation. (default=FALSE)}
 
-\item{OD_adjust}{Draw overdispersed limits using Spiegelhalter's (2012) tau2 (default=TRUE)}
+\item{draw_adjusted}{Draw overdispersed limits using Spiegelhalter's (2012) tau2 (default=TRUE)}
 
 \item{target}{the calculated target value for the data type}
 

@@ -63,8 +63,8 @@ medpar$prds<- predict(mod, type="response")
 ## ---- funnel1, message=FALSE, fig.align='center', fig.retina=5, collapse=TRUE----
 
 funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnum, 
-            title = 'Length of Stay Funnel plot for `medpar` data', Poisson_limits = TRUE,
-            OD_adjust = FALSE,label_outliers = TRUE, limit=99)
+            title = 'Length of Stay Funnel plot for `medpar` data', draw_unadjusted = TRUE,
+            draw_adjusted = FALSE,label = "outlier", limit=99)
 
 ## ---- ODcheck, message=FALSE--------------------------------------------------
 
@@ -73,7 +73,7 @@ sum(mod$weights * mod$residuals^2)/mod$df.residual
 
 ## ---- funnel2, message=FALSE, fig.align='center', fig.retina=5, collapse=TRUE----
 funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnum, 
-            title = 'Length of Stay Funnel plot for `medpar` data', Poisson_limits = FALSE,
-            OD_adjust = TRUE, data_type="SR", sr_method = "SHMI",label_outliers = TRUE, limit=99
+            title = 'Length of Stay Funnel plot for `medpar` data', draw_unadjusted = FALSE,
+            draw_adjusted = TRUE, data_type="SR", sr_method = "SHMI",label = "outlier", limit=99
             )
 

@@ -3,8 +3,6 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/chrismainey/FunnelPlotR.svg?branch=master)](https://travis-ci.org/chrismainey/FunnelPlotR)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -13,8 +11,7 @@ version](http://www.r-pkg.org/badges/version/FunnelPlotR)](https://cran.r-projec
 ![](http://cranlogs.r-pkg.org/badges/grand-total/FunnelPlotR) [![Codecov
 test
 coverage](https://codecov.io/gh/chrismainey/FunnelPlotR/branch/master/graph/badge.svg)](https://codecov.io/gh/chrismainey/FunnelPlotR?branch=master)
-[![R build
-status](https://github.com/chrismainey/FunnelPlotR/workflows/R-CMD-check/badge.svg)](https://github.com/chrismainey/FunnelPlotR/actions)
+[![R-CMD-check](https://github.com/chrismainey/FunnelPlotR/workflows/R-CMD-check/badge.svg)](https://github.com/chrismainey/FunnelPlotR/actions)
 <!-- badges: end -->
 
 ## Funnel Plots
@@ -33,7 +30,7 @@ et al
 (2005)](https://qualitysafety.bmj.com/content/14/5/347)<br>
 
 It draws funnel plots using `ggplot2` and allows users to specify
-whether they want t adjust the funnel plot limits for ‘overdispersion.’
+whether they want to adjust the funnel plot limits for ‘overdispersion.’
 This adjustment makes the assumption that we are dealing with clusters
 of values (means) at institutions that are themselves arranged around a
 global mean. We then have ‘within’ institution variation and ‘between
@@ -45,16 +42,17 @@ Winsorised or truncated (with a default 10% at each end of the
 distribution.)
 
 Methods are based on those presented in Spiegelhalter’s papers and the
-Care Quality Commission’s Intelligent Monitoring methodology documents.
-There is a variant method for standardised ratios, used in the NHS’
-Summary Hospital Mortality Indicator’<br> [Summary Hospital-level
-Mortality Indicator, NHS Digital, SHMI
+Care Quality Commission’s Intelligent Monitoring methodology documents,
+with methods for proportions, ratios of counts and indirectly
+standardised ratios. There is a also a variant method for standardised
+ratios, used in the NHS’ Summary Hospital Mortality Indicator’<br>
+[Summary Hospital-level Mortality Indicator, NHS Digital, SHMI
 specification](https://digital.nhs.uk/data-and-information/publications/ci-hub/summary-hospital-level-mortality-indicator-shmi)
 <br>
 
-This uses a log-transformation and truncation of the distribution for
-calculating overdispersion, whereas Spiegelhalter’s methods use a
-square-root and Winsorisation.
+This variant uses a log-transformation and truncation of the
+distribution for calculating overdispersion, whereas Spiegelhalter’s
+methods use a square-root and Winsorisation.
 
 Contributions are welcome. Please note that the ‘FunnelPlotR’ project is
 released with a [Contributor Code of
@@ -66,11 +64,19 @@ More information available at
 
 ## Installation
 
-You can install from CRAN, or use the development version on GitHub:
+You can install from CRAN:
 
 ``` r
 install.packages("FunnelPlotR")
-# or
+```
+
+You can install the development version directly from GitHub using the
+`remotes` (or `devtools`) package. Please be aware that, although I
+endeavour have help files up-to-date, this version may different from
+the one on CRAN. Please consult the help documentation if you get error
+messages.
+
+``` r
 remotes::install_github("https://github.com/chrismainey/FunnelPlotR")
 ```
 
@@ -135,7 +141,7 @@ and outliers labelled.
 ``` r
 a<-funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnum, 
             title = 'Length of Stay Funnel plot for `medpar` data', data_type="SR", limit=99,
-            Poisson_limits = TRUE, OD_adjust = FALSE, label_outliers = TRUE)
+            draw_unadjusted = TRUE, draw_adjusted = FALSE, label="outlier")
 print(a)
 ```
 
@@ -146,14 +152,13 @@ print(a)
 
 <br><br>
 
-That looks like too many outliers\! There is more variation in our data
+That looks like too many outliers! There is more variation in our data
 than we would expect, and this is referred to as: **overdispersion**. So
 lets check for it: <br> The following ratio should be 1 if our data are
 conforming to Poisson distribution assumption (conditional mean =
 variance). If it is greater than 1, we have overdispersion:
 
 ``` r
-
 sum(mod$weights * mod$residuals^2)/mod$df.residual
 #> [1] 6.240519
 ```
@@ -165,8 +170,8 @@ for this by inflating the limits:
 
 ``` r
 b<-funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnum, data_type = "SR",
-            title = 'Length of Stay Funnel plot for `medpar` data', Poisson_limits = FALSE,
-            OD_adjust = TRUE, sr_method = "SHMI",label_outliers = TRUE, limit=99)
+            title = 'Length of Stay Funnel plot for `medpar` data', draw_unadjusted = FALSE,
+            draw_adjusted = TRUE, sr_method = "SHMI", label="outlier", limit=99)
 
 print(b)
 ```

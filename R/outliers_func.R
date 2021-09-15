@@ -1,36 +1,41 @@
 #' @title Label outliers
-#' 
+#'
 #' @param mod_plot_agg Aggregated data set for plotting
-#' @param OD_adjust Logical for drawing OD limits, takes precedence over Poisson for outliers
-#' @param Poisson_limits Logical for drawing Poisson limits
+#' @param draw_adjusted Logical for drawing OD limits, takes precedence over Poisson for outliers
 #' @param limit which limit to use.  Currently 95 or 99.
-#' 
+#'
 #' @keywords internal
-outliers_func <- function(mod_plot_agg, OD_adjust, Poisson_limits, limit){
+#' @noRd
+outliers_func <- function(mod_plot_agg, draw_adjusted, limit){
 
   if (limit == 95) {
-    if (OD_adjust==FALSE){
-      mod_plot_agg$outlier <- ifelse(mod_plot_agg$rr <= mod_plot_agg$UCL95 &
-                                 mod_plot_agg$rr >= mod_plot_agg$LCL95,
-                                 0,
-                                 1)
+    if (draw_adjusted==FALSE){
+      #cat('1')
+       mod_plot_agg$outlier <- ifelse((mod_plot_agg$rr) <= mod_plot_agg$UCL95 &
+                                        (mod_plot_agg$rr) >= mod_plot_agg$LCL95,
+                                  0,
+                                  1)
     } else {
-      mod_plot_agg$outlier <- ifelse(mod_plot_agg$rr <= mod_plot_agg$OD95UCL &
-                                       mod_plot_agg$rr >= mod_plot_agg$OD95LCL,
+      #cat('2')
+      mod_plot_agg$outlier <- ifelse((mod_plot_agg$rr) <= mod_plot_agg$OD95UCL &
+                                       (mod_plot_agg$rr) >= mod_plot_agg$OD95LCL,
                                      0,
                                      1)
     }
   } else {
-  
+
     if (limit == 99) {
-      if (OD_adjust==FALSE){
-        mod_plot_agg$outlier <- ifelse(mod_plot_agg$rr <= mod_plot_agg$UCL99 &
-                                         mod_plot_agg$rr >= mod_plot_agg$LCL99,
+
+       if (draw_adjusted==FALSE){
+      #   cat('3')
+        mod_plot_agg$outlier <- ifelse((mod_plot_agg$rr) <= mod_plot_agg$UCL99 &
+                                         (mod_plot_agg$rr) >= mod_plot_agg$LCL99,
                                        0,
                                        1)
       } else {
-        mod_plot_agg$outlier <- ifelse(mod_plot_agg$rr <= mod_plot_agg$OD99UCL &
-                                         mod_plot_agg$rr >= mod_plot_agg$OD99LCL,
+        # cat('4')
+        mod_plot_agg$outlier <- ifelse((mod_plot_agg$rr) <= mod_plot_agg$OD99UCL &
+                                         (mod_plot_agg$rr) >= mod_plot_agg$OD99LCL,
                                        0,
                                        1)
       }
@@ -38,9 +43,9 @@ outliers_func <- function(mod_plot_agg, OD_adjust, Poisson_limits, limit){
   }
   return(mod_plot_agg)
 }
-  
-  
 
-      
-     
-      
+
+
+
+
+
