@@ -1,7 +1,7 @@
 Package: FunnelPlotR
 Type: Package
 Title: Funnel Plots for Comparing Institutional Performance
-Version: 0.4.0
+Version: 0.4.1
 Authors@R: c(
         person("Chris", "Mainey", ,"c.mainey@nhs.net", role= c("aut", "cre"), 
           comment = c(ORCID ="0000-0002-3018-6171")
@@ -25,9 +25,9 @@ Suggests: testthat (>= 3.0.0), knitr, rmarkdown, COUNT, tidyr, covr,
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2021-09-14 13:38:03 UTC; Chris.Mainey
+Packaged: 2021-09-30 08:55:58 UTC; Chris.Mainey
 Author: Chris Mainey [aut, cre] (<https://orcid.org/0000-0002-3018-6171>),
   Andrew Johnson [ctb],
   Matthew Bass [ctb]
 Repository: CRAN
-Date/Publication: 2021-09-15 07:30:02 UTC
+Date/Publication: 2021-09-30 09:50:06 UTC
