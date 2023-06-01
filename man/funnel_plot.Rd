@@ -30,7 +30,8 @@ funnel_plot(
   Poisson_limits,
   OD_adjust,
   xrange,
-  yrange
+  yrange,
+  SHMI_rounding = TRUE
 )
 }
 \arguments{
@@ -99,6 +100,8 @@ Default is hex colours: c("#FF7F0EFF", "#FF7F0EFF", "#1F77B4FF","#1F77B4FF", "#9
 \item{xrange}{Deprecated.  Please use the `x_range` argument instead.}
 
 \item{yrange}{Deprecated.  Please use the `y_range` argument instead.}
+
+\item{SHMI_rounding}{TRUE/FALSE, for SHMI calculation (standardised ratio, with SHMI truncation etc.), should you round the expected values to 2 decimal places (TRUE) or not (FALSE)}
 }
 \value{
 A fitted `funnelplot` object.  A `funnelplot` object is a list containing the following components:\cr
@@ -113,7 +116,7 @@ A fitted `funnelplot` object.  A `funnelplot` object is a list containing the fo
 \item{draw_unadjusted}{Whether unadjusted Poisson limits were used.}
 }
 \description{
-An implementation of funnel plots for indirectly standardised ratios, as described by Spiegelhalter (2005) <https://doi.org/10.1002/sim.1970>.
+An implementation of funnel plots for indirectly standardised ratios, as described by Spiegelhalter (2005) <https://doi.org/10.1002/sim.1970/>.
 There are several parameters for the input, with the assumption that you will want smooth,
 overdispersed, funnel control limits.  Limits may be inflated for overdispersion based on the methods of DerSimonian & Laird (1986), buy calculating a between unit standard deviation (\eqn{\tau})
 and constructing an additive random effects models, originally used for meta-analyses of clinical trials data.
@@ -160,11 +163,11 @@ tau2(fp)
 
 }
 \references{
-DerSimonian & Laird (1986) <doi:10.1016/0197-2456(86)90046-2> Meta-analysis in clinical trials.
+DerSimonian & Laird (1986)  Meta-analysis in clinical trials. <doi:10.1016/0197-2456(86)90046-2>
 
-Spiegelhalter (2005) <doi:10.1002/sim.1970> Funnel plots for comparing institutional performance
+Spiegelhalter (2005) Funnel plots for comparing institutional performance  <doi:10.1002/sim.1970>
 
-Spiegelhalter et al. (2012) <doi:10.1111/j.1467-985X.2011.01010.x> Statistical methods for healthcare regulation: rating, screening and surveillance: <doi:10.1111/j.1467-985X.2011.01010.x>
+Spiegelhalter et al. (2012) Statistical methods for healthcare regulation: rating, screening and surveillance: <doi:10.1111/j.1467-985X.2011.01010.x>
 
-NHS Digital (2020) SHMI Methodology v .134\url{https://digital.nhs.uk/data-and-information/publications/clinical-indicators/shmi/current}
+NHS Digital (2020) SHMI Methodology v .134 \url{https://digital.nhs.uk/data-and-information/publications/ci-hub/summary-hospital-level-mortality-indicator-shmi}
 }

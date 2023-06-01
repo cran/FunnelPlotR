@@ -40,7 +40,7 @@ a+ geom_line(aes(x=id, y=value, col=key), data=lkup)
 
 
 ## ----install, eval=FALSE------------------------------------------------------
-#  devtools::install_github("https://github.com/chrismainey/FunnelPlotR")
+#  devtools::install_github("https://github.com/nhs-r-community/FunnelPlotR")
 
 ## ----data, warning=FALSE, message=FALSE---------------------------------------
 library(FunnelPlotR)

@@ -1,5 +1,5 @@
 #' @title Funnel plots for comparing institutional performance
-#' @description An implementation of funnel plots for indirectly standardised ratios, as described by Spiegelhalter (2005) <https://doi.org/10.1002/sim.1970>.
+#' @description An implementation of funnel plots for indirectly standardised ratios, as described by Spiegelhalter (2005) <https://doi.org/10.1002/sim.1970/>.
 #' There are several parameters for the input, with the assumption that you will want smooth,
 #' overdispersed, funnel control limits.  Limits may be inflated for overdispersion based on the methods of DerSimonian & Laird (1986), buy calculating a between unit standard deviation (\eqn{\tau})
 #' and constructing an additive random effects models, originally used for meta-analyses of clinical trials data.
@@ -57,6 +57,7 @@
 #' \item{phi}{The dispersion ratio, \eqn{\phi}.}
 #' \item{draw_adjusted}{Whether overdispersion-adjusted limits were used.}
 #' \item{draw_unadjusted}{Whether unadjusted Poisson limits were used.}
+#' @param SHMI_rounding TRUE/FALSE, for SHMI calculation (standardised ratio, with SHMI truncation etc.), should you round the expected values to 2 decimal places (TRUE) or not (FALSE)
 #'
 #' @export
 #' @details
@@ -67,10 +68,10 @@
 #'    The plot colours deliberately avoid red-amber-green colouring, but you could extract this from the ggplot object and change manually if you like.
 #'    Future versions of `funnelplotr` may allow users to change this.
 #'
-#' @references DerSimonian & Laird (1986) <doi:10.1016/0197-2456(86)90046-2> Meta-analysis in clinical trials.
-#' @references Spiegelhalter (2005) <doi:10.1002/sim.1970> Funnel plots for comparing institutional performance
-#' @references Spiegelhalter et al. (2012) <doi:10.1111/j.1467-985X.2011.01010.x> Statistical methods for healthcare regulation: rating, screening and surveillance: <doi:10.1111/j.1467-985X.2011.01010.x>
-#' @references NHS Digital (2020) SHMI Methodology v .134\url{https://digital.nhs.uk/data-and-information/publications/clinical-indicators/shmi/current}
+#' @references DerSimonian & Laird (1986)  Meta-analysis in clinical trials. <doi:10.1016/0197-2456(86)90046-2>
+#' @references Spiegelhalter (2005) Funnel plots for comparing institutional performance  <doi:10.1002/sim.1970>
+#' @references Spiegelhalter et al. (2012) Statistical methods for healthcare regulation: rating, screening and surveillance: <doi:10.1111/j.1467-985X.2011.01010.x>
+#' @references NHS Digital (2020) SHMI Methodology v .134 \url{https://digital.nhs.uk/data-and-information/publications/ci-hub/summary-hospital-level-mortality-indicator-shmi}
 #'
 #' @examples
 #' # We will use the 'medpar' dataset from the 'COUNT' package.
@@ -118,11 +119,12 @@ funnel_plot <- function(numerator, denominator, group
                         , multiplier = 1, x_label = "Expected"
                         , y_label , x_range = "auto", y_range = "auto"
                         , plot_cols =
-                          c("#FF7F0EFF", "#FF7F0EFF", "#1F77B4FF","#1F77B4FF", "#9467BDFF",
-                            "#9467BDFF", "#2CA02CFF", "#2CA02CFF")
+                          c("#FF7F0EFF", "#FF7F0EFF", "#1F77B4FF","#1F77B4FF"
+                            , "#9467BDFF", "#9467BDFF", "#2CA02CFF", "#2CA02CFF")
                         , theme = funnel_clean()
                         , label_outliers, Poisson_limits, OD_adjust
-                        , xrange, yrange){
+                        , xrange, yrange
+                        , SHMI_rounding = TRUE){
 
   # Version 0.4 deprecation warnings
   if (!missing(label_outliers)) {
@@ -225,23 +227,25 @@ funnel_plot <- function(numerator, denominator, group
 
 
   # Error handling for highlight argument
-  if (!(is.na(highlight))){
-    if(!is.character(highlight)) {
+  if(!is.na(highlight[1])){
+    
+    if(!is.character(highlight[1])) {
       stop("Please supply `highlight` in character format, or a character vector")
     }
-  }
-
-
-
-  if(!is.na(highlight)){
-    if (is.factor(group)){
-      if((!(highlight %in% levels(group)))){
-         stop("Value(s) specified to `highlight` not found in `group` variable")
-      }
-    } else {
-      if (!(highlight %in% group)) {
-        stop("Value(s) specified to `highlight` not found in `group` variable")
-      }
+    
+    # check for missing highlight levels
+    labs_present <- apply(sapply(X = highlight, FUN = grepl, x=group), 2, any)
+    labs_missing <- names(labs_present[labs_present == FALSE])
+    
+    if (length(labs_missing)>0){
+      
+      stop(paste0("Value(s):'"
+                 , paste(labs_missing,collapse=", ")
+                 , "' specified to `highlight` not found in `group` variable. 
+                 Are you trying to highlight a group that is missing from your 
+                 data, or is it a typo?"
+           ))
+      
     }
   }
 
@@ -268,7 +272,7 @@ funnel_plot <- function(numerator, denominator, group
   mod_plot_agg<-aggregate_func(mod_plot)
 
   # Round to two decimal places for expected SHMI expected
-  if(data_type == "SR" & sr_method == "SHMI"){
+  if(data_type == "SR" & sr_method == "SHMI" & SHMI_rounding == TRUE){
     mod_plot_agg$denominator <- round(mod_plot_agg$denominator,2)
   }
 
@@ -325,9 +329,9 @@ funnel_plot <- function(numerator, denominator, group
     message("draw_adjusted set to FALSE, plotting using unadjusted limits")
   }
 
-  if (draw_adjusted == TRUE & tau2 == 0) {
+  if (draw_adjusted == TRUE & phi <=1) {
     draw_adjusted <- FALSE
-    message("No overdispersion detected, or draw_adjusted to FALSE, plotting using unadjusted limits")
+    message("No overdispersion detected, or draw_adjusted set to FALSE, plotting using unadjusted limits")
     draw_unadjusted <- TRUE
   }
 
