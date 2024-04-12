@@ -30,7 +30,7 @@
 
 draw_plot<-function(mod_plot_agg, limits, x_label, y_label, title, label, multiplier,
                      draw_unadjusted, draw_adjusted, target, min_y, max_y, min_x, max_x
-                    , data_type, sr_method, theme, plot_cols){
+                    , data_type, sr_method, theme, plot_cols, max.overlaps){
 
   # Bind variable for NSE
   numerator <- denominator <- number.seq <- ll95 <- ul95 <- ll998 <- ul998 <- odll95 <- odul95 <-
@@ -121,6 +121,9 @@ draw_plot<-function(mod_plot_agg, limits, x_label, y_label, title, label, multip
           angle = 0
         ), override.aes = list(linetype = c(2,2,1,1)) ))
     }
+    if (draw_unadjusted == FALSE &  draw_adjusted == FALSE){
+    funnel_p 
+   }
   }
 
   # Apply plot scaling
@@ -136,17 +139,32 @@ draw_plot<-function(mod_plot_agg, limits, x_label, y_label, title, label, multip
 
 
 
-
+ 
 
  # Label points
   if(!is.na(label)){
+    
+    if(label=="highlight"){
+      funnel_p <- funnel_p +
+        geom_label_repel(aes(label = ifelse(highlight == 1,
+                                            as.character(group), NA))
+                         , size=2.5, point.padding=0, direction = "both", force = 2
+                         , min.segment.length=0, na.rm=TRUE, max.overlaps = max.overlaps)
+    }
+    
+    if(draw_adjusted == FALSE & draw_unadjusted == FALSE){
+      funnel_p
+    }
+    
+    
+    
     if(label=="outlier"){
 
       funnel_p <- funnel_p +
         geom_label_repel(aes(label = ifelse(outlier == 1,
                                             as.character(group), NA))
                          , size=2.5, point.padding=0, direction = "both", force = 2
-                         , min.segment.length=0, na.rm=TRUE)
+                         , min.segment.length=0, na.rm=TRUE, max.overlaps = max.overlaps)
     }
 
     if(label=="outlier_lower"){
@@ -155,7 +173,7 @@ draw_plot<-function(mod_plot_agg, limits, x_label, y_label, title, label, multip
         geom_label_repel(aes(label = ifelse(outlier == 1 & rr < 1,
                                             as.character(group), NA))
                          , size=2.5,point.padding=0, direction = "both", force = 2
-                         , min.segment.length=0, na.rm=TRUE)
+                         , min.segment.length=, na.rm=TRUE, max.overlaps = max.overlaps)
     }
 
     if(label=="outlier_upper"){
@@ -164,23 +182,16 @@ draw_plot<-function(mod_plot_agg, limits, x_label, y_label, title, label, multip
         geom_label_repel(aes(label = ifelse(outlier ==  1 & rr > 1,
                                             as.character(group), NA))
                          , size=2.5, point.padding=0, direction = "both", force = 2
-                         , min.segment.length=0, na.rm=TRUE)
+                         , min.segment.length=1, na.rm=TRUE, max.overlaps = max.overlaps)
     }
 
-    if(label=="highlight"){
-      funnel_p <- funnel_p +
-        geom_label_repel(aes(label = ifelse(highlight == 1,
-                                            as.character(group), NA))
-                         , size=2.5, point.padding=0, direction = "both", force = 2
-                         , min.segment.length=0, na.rm=TRUE)
-    }
-
+    
     if(label=="both"){
       funnel_p <- funnel_p +
         geom_label_repel(aes(label = ifelse((highlight == 1 | outlier == 1) ,
                                             as.character(group), NA))
                          , size=2.5, point.padding=0, direction = "both", force = 2
-                         , min.segment.length=0, na.rm=TRUE)
+                         , min.segment.length=1, na.rm=TRUE, max.overlaps = max.overlaps)
 
     }
 
@@ -189,7 +200,7 @@ draw_plot<-function(mod_plot_agg, limits, x_label, y_label, title, label, multip
         geom_label_repel(aes(label = ifelse((highlight == 1 | (outlier == 1& rr < 1)) ,
                                             as.character(group), NA))
                          , size=2.5, point.padding=0, direction = "both", force = 2
-                         , min.segment.length=0, na.rm=TRUE)
+                         , min.segment.length=1, na.rm=TRUE, max.overlaps = max.overlaps)
 
     }
 
@@ -198,7 +209,7 @@ draw_plot<-function(mod_plot_agg, limits, x_label, y_label, title, label, multip
         geom_label_repel(aes(label = ifelse((highlight == 1 | (outlier == 1 & rr > 1)) ,
                                             as.character(group), NA))
                          , size=2.5, point.padding=0, direction = "both", force = 2
-                         , min.segment.length=0, na.rm=TRUE)
+                         , min.segment.length=1, na.rm=TRUE, max.overlaps = max.overlaps)
 
     }
   }

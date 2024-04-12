@@ -1,4 +1,4 @@
-## ---- include = FALSE, echo=FALSE, fig.height= 5, fig.width=7-----------------
+## ----include = FALSE, echo=FALSE, fig.height= 5, fig.width=7------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -55,24 +55,24 @@ mod<- glm(los ~ hmo + died + age80 + factor(type), family="poisson", data=medpar
 summary(mod)
 
 
-## ---- prediction--------------------------------------------------------------
+## ----prediction---------------------------------------------------------------
 
 medpar$prds<- predict(mod, type="response")
 
 
-## ---- funnel1, message=FALSE, fig.align='center', fig.retina=5, collapse=TRUE----
+## ----funnel1, message=FALSE, fig.align='center', fig.retina=5, collapse=TRUE----
 
-funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnum, 
+funnel_plot(medpar, numerator=los, denominator=prds, group = provnum, 
             title = 'Length of Stay Funnel plot for `medpar` data', draw_unadjusted = TRUE,
             draw_adjusted = FALSE,label = "outlier", limit=99)
 
-## ---- ODcheck, message=FALSE--------------------------------------------------
+## ----ODcheck, message=FALSE---------------------------------------------------
 
 sum(mod$weights * mod$residuals^2)/mod$df.residual
 
 
-## ---- funnel2, message=FALSE, fig.align='center', fig.retina=5, collapse=TRUE----
-funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnum, 
+## ----funnel2, message=FALSE, fig.align='center', fig.retina=5, collapse=TRUE----
+funnel_plot(medpar, numerator=los, denominator=prds, group = provnum, 
             title = 'Length of Stay Funnel plot for `medpar` data', draw_unadjusted = FALSE,
             draw_adjusted = TRUE, data_type="SR", sr_method = "SHMI",label = "outlier", limit=99
             )

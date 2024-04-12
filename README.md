@@ -8,10 +8,10 @@ state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active/)
 [![CRAN
 version](http://www.r-pkg.org/badges/version/FunnelPlotR)](https://cran.r-project.org/package=FunnelPlotR)
-![](http://cranlogs.r-pkg.org/badges/grand-total/FunnelPlotR/)
+[![downloads](https://cranlogs.r-pkg.org/badges/grand-total/FunnelPlotR)](https://cran.r-project.org/package=FunnelPlotR)
 [![Codecov test
 coverage](https://codecov.io/gh/nhs-r-community/FunnelPlotR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/nhs-r-community/FunnelPlotR?branch=main/)
-[![R-CMD-check](https://github.com/nhs-r-community/FunnelPlotR/workflows/R-CMD-check/badge.svg)](https://github.com/nhs-r-community/FunnelPlotR/actions/)
+[![R-CMD-check](https://github.com/nhs-r-community/FunnelPlotR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nhs-r-community/FunnelPlotR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ## Funnel Plots
@@ -131,7 +131,7 @@ medpar$prds<- predict(mod, type="response")
 and outliers labelled.
 
 ``` r
-a<-funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnum, 
+a<-funnel_plot(medpar, numerator=los, denominator=prds, group = provnum, 
             title = 'Length of Stay Funnel plot for `medpar` data', data_type="SR", limit=99,
             draw_unadjusted = TRUE, draw_adjusted = FALSE, label="outlier")
 print(a)
@@ -162,7 +162,7 @@ overdispersed limits using either SHMI or Spiegelhalter methods adjust
 for this by inflating the limits:
 
 ``` r
-b<-funnel_plot(numerator=medpar$los, denominator=medpar$prds, group = medpar$provnum, data_type = "SR",
+b<-funnel_plot(medpar, numerator=los, denominator=prds, group = provnum, data_type = "SR",
             title = 'Length of Stay Funnel plot for `medpar` data', draw_unadjusted = FALSE,
             draw_adjusted = TRUE, sr_method = "SHMI", label="outlier", limit=99)
 

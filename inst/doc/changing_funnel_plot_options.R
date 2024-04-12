@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -22,21 +22,24 @@ mod<- glm(los ~ hmo + died + age80 + factor(type), family="poisson", data=medpar
 medpar$prds<- predict(mod, newdata = medpar, type="response")
 
 # Draw plot, returning just the plot object
-funnel_plot(denominator=medpar$prds, numerator=medpar$los
-            , group = medpar$provnum, limit=99 ,label = "outlier"
+funnel_plot(medpar, denominator=prds, numerator=los
+            , group = provnum, limit=99 ,label = "outlier"
             , draw_unadjusted = TRUE)
 
 
 ## ----highlight----------------------------------------------------------------
 # Draw plot, returning just the plot object
-funnel_plot(denominator=medpar$prds,numerator=medpar$los
-            , group = medpar$provnum, limit=99 ,label = "outlier"
+funnel_plot(medpar, denominator=prds, numerator=los
+            , group = provnum, limit=99 ,label = "outlier"
             , draw_unadjusted = TRUE, highlight="030002")
+
+
+
 
 ## ----plottheme1---------------------------------------------------------------
 
-funnel_plot(denominator=medpar$prds,numerator=medpar$los
-            , group = medpar$provnum, limit=99 ,label = "outlier"
+funnel_plot(medpar, denominator=prds,numerator=los
+            , group = provnum, limit=99 ,label = "outlier"
             , draw_unadjusted = TRUE, theme = funnel_grey() )
 
 
@@ -51,33 +54,33 @@ new_funnel_theme <-
     )
 
 
-funnel_plot(denominator=medpar$prds,numerator=medpar$los
-            , group = medpar$provnum, limit=99 ,label = "outlier"
+funnel_plot(medpar, denominator=prds,numerator=los
+            , group = provnum, limit=99 ,label = "outlier"
             , draw_unadjusted = TRUE, theme = new_funnel_theme)
 
 
 ## ----colours------------------------------------------------------------------
-funnel_plot(denominator=medpar$prds,numerator=medpar$los
-            , group = medpar$provnum, limit=99 ,label = "outlier"
+funnel_plot(medpar, denominator=prds,numerator=los
+            , group = provnum, limit=99 ,label = "outlier"
             , draw_unadjusted = TRUE, theme = funnel_grey(),
             plot_cols = c("#FF7F0EFF", "#000000", "#1F77B4FF","#1F77B4FF", "#9467BDFF", "#9467BDFF", "#2CA02CFF", "#2CA02CFF"))
 
 ## ----funnelscales-------------------------------------------------------------
 ## Changing labels
-funnel_plot(denominator=medpar$prds,numerator=medpar$los
-            , group = medpar$provnum, limit=99 ,label = "outlier"
+funnel_plot(medpar, denominator=prds,numerator=los
+            , group = provnum, limit=99 ,label = "outlier"
             , draw_unadjusted = TRUE, x_range=c(0, 400), y_range=c(0,2))
 
 
 ## ----funnellabels1------------------------------------------------------------
-funnel_plot(denominator=medpar$prds,numerator=medpar$los
-            , group = medpar$provnum, limit=99 ,label = "outlier"
+funnel_plot(medpar, denominator=prds,numerator=los
+            , group = provnum, limit=99 ,label = "outlier"
             , draw_unadjusted = TRUE, title = "Vignette funnel plot"
             , x_label = "x-axis", y_label = "y-axis")
 
 ## ----funnellabels2------------------------------------------------------------
-funnel_plot(denominator=medpar$prds,numerator=medpar$los
-            , group = medpar$provnum, limit=99
+funnel_plot(medpar, denominator=prds,numerator=los
+            , group = provnum, limit=99
             , draw_unadjusted = TRUE, title = "Vignette funnel plot"
             , x_label = "x-axis", y_label = "y-axis"
             , highlight= "030002", label = "highlight")
@@ -85,8 +88,8 @@ funnel_plot(denominator=medpar$prds,numerator=medpar$los
 ## ----cutoutplot---------------------------------------------------------------
 # Original funnel plot object
 fp <-
-funnel_plot(denominator=medpar$prds,numerator=medpar$los
-            , group = medpar$provnum, limit=99, label = "outlier"
+funnel_plot(medpar, denominator=prds,numerator=los
+            , group = provnum, limit=99, label = "outlier"
             , draw_unadjusted = TRUE)
 
 # Extract just the plot
