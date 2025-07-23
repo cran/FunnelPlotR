@@ -1,7 +1,7 @@
 Package: FunnelPlotR
 Type: Package
 Title: Funnel Plots for Comparing Institutional Performance
-Version: 0.5.0
+Version: 0.6.0
 Authors@R: c(
         person("Chris", "Mainey", ,"c.mainey1@nhs.net", role= c("aut", "cre"), 
           comment = c(ORCID ="0000-0002-3018-6171")
@@ -19,16 +19,17 @@ URL: https://nhs-r-community.github.io/FunnelPlotR/,
         https://github.com/nhs-r-community/FunnelPlotR
 BugReports: https://github.com/nhs-r-community/FunnelPlotR/issues
 Encoding: UTF-8
-Imports: dplyr, ggrepel, ggplot2, scales, rlang
-RoxygenNote: 7.3.1
+Imports: dplyr, ggrepel, ggplot2 (>= 3.5.2), scales, rlang
+RoxygenNote: 7.3.2
 Suggests: testthat (>= 3.0.0), knitr, rmarkdown, COUNT, tidyr, covr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2024-04-12 08:08:53 UTC; ChrisMainey(Birmingh
-Author: Chris Mainey [aut, cre] (<https://orcid.org/0000-0002-3018-6171>),
+Packaged: 2025-07-23 20:54:06 UTC; ChrisMainey(Birmingh
+Author: Chris Mainey [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-3018-6171>),
   Andrew Johnson [ctb],
   Matthew Bass [ctb],
   NHS-R Community [cph]
 Repository: CRAN
-Date/Publication: 2024-04-12 08:40:02 UTC
+Date/Publication: 2025-07-23 21:10:02 UTC

@@ -9,9 +9,9 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![CRAN
 version](http://www.r-pkg.org/badges/version/FunnelPlotR)](https://cran.r-project.org/package=FunnelPlotR)
 [![downloads](https://cranlogs.r-pkg.org/badges/grand-total/FunnelPlotR)](https://cran.r-project.org/package=FunnelPlotR)
-[![Codecov test
-coverage](https://codecov.io/gh/nhs-r-community/FunnelPlotR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/nhs-r-community/FunnelPlotR?branch=main/)
 [![R-CMD-check](https://github.com/nhs-r-community/FunnelPlotR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nhs-r-community/FunnelPlotR/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/nhs-r-community/FunnelPlotR/graph/badge.svg)](https://app.codecov.io/gh/nhs-r-community/FunnelPlotR)
 <!-- badges: end -->
 
 ## Funnel Plots
@@ -124,16 +124,16 @@ Now we have a regression that we can use to get a predicted `los` that
 we will compare to observed `los`:
 
 ``` r
-medpar$prds<- predict(mod, type="response")
+medpar$prds <- predict(mod, type="response")
 ```
 
 <br><br> We can build a funnel plot object with standard Poisson limits,
 and outliers labelled.
 
 ``` r
-a<-funnel_plot(medpar, numerator=los, denominator=prds, group = provnum, 
-            title = 'Length of Stay Funnel plot for `medpar` data', data_type="SR", limit=99,
-            draw_unadjusted = TRUE, draw_adjusted = FALSE, label="outlier")
+a <- funnel_plot(medpar, numerator = los, denominator = prds, group = provnum, 
+            title = 'Length of Stay Funnel plot for `medpar` data', data_type = "SR", limit=  99,
+            draw_unadjusted = TRUE, draw_adjusted = FALSE, label = "outlier")
 print(a)
 ```
 
@@ -162,9 +162,9 @@ overdispersed limits using either SHMI or Spiegelhalter methods adjust
 for this by inflating the limits:
 
 ``` r
-b<-funnel_plot(medpar, numerator=los, denominator=prds, group = provnum, data_type = "SR",
+b <- funnel_plot(medpar, numerator = los, denominator = prds, group = provnum, data_type = "SR",
             title = 'Length of Stay Funnel plot for `medpar` data', draw_unadjusted = FALSE,
-            draw_adjusted = TRUE, sr_method = "SHMI", label="outlier", limit=99)
+            draw_adjusted = TRUE, sr_method = "SHMI", label = "outlier", limit = 99)
 
 print(b)
 ```
